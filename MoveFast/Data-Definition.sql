@@ -41,10 +41,11 @@ fecha DATE DEFAULT CURRENT_DATE,
 clid INTEGER NOT NULL,
 placa VARCHAR(10) NOT NULL,
 estado BOOLEAN DEFAULT TRUE,
-FOREIGN KEY(placa) REFERENCES vehiculos(placa) ON DELETE CASCADE, --Elimina alquileres al eliminarse el vehiculo
-FOREIGN KEY(clid) REFERENCES clientes(clid) ON DELETE CASCADE --Elimina alquileres al eliminarse el cliente
+FOREIGN KEY(placa) REFERENCES vehiculos(placa) ON UPDATE CASCADE 
+ON DELETE CASCADE, --Elimina alquileres al eliminarse el vehiculo
+FOREIGN KEY(clid) REFERENCES clientes(clid) ON UPDATE CASCADE,
+ON DELETE CASCADE --Elimina alquileres al eliminarse el cliente
 );
-
 --Tabla pagos
 --Representa los pagos efectuados por un monto específico a una transacción de alquiler particular
 CREATE TABLE pagos(
