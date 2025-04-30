@@ -23,7 +23,7 @@ apellido2 VARCHAR(45)
 CREATE TABLE platillo(
 id_platillo INT PRIMARY KEY,
 nombre VARCHAR(45),
-importe INT
+importe INT CHECK(num_Comensales > 0)
 );
 
 --Tabla bebida
@@ -31,14 +31,14 @@ importe INT
 CREATE TABLE bebida(
 id_bebida INT PRIMARY KEY,
 nombre VARCHAR(45),
-importe INT
+importe INT CHECK(num_Comensales > 0)
 );
 
 --Tabla mesa
 --Representa la mesa dónde se sientan los comensales
 CREATE TABLE mesa(
 id_mesa INT PRIMARY KEY,
-num_Comensales INT,
+num_Comensales INT CHECK(num_Comensales > 0),
 ubicacion VARCHAR(45)
 );
 
