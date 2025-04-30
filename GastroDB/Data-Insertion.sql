@@ -83,3 +83,16 @@ id_mesa, id_platillo, id_bebida) VALUES
 (60, '1996-05-15', 4, 13, 50, 22, 40),
 (61, '2020-04-13', 1, 16, 10, 27, 36),
 (62, '2021-06-20', 2, 14, 10, 24, 32);
+
+----PRUEBAS RESTRICCIONES----
+--Mesa con comensales negativos
+INSERT INTO mesa VALUES
+(35, -2, 'Techo');
+
+--Platillo con importe cero
+INSERT INTO platillo VALUES
+(400, 'Nachos Gratis', 0);
+
+--Eliminar clientes y revisar factura--
+DELETE FROM cliente WHERE id_cliente = 1 OR id_cliente = 2;
+SELECT * FROM factura; 
