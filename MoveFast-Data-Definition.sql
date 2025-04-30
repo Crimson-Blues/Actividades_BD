@@ -20,8 +20,8 @@ color VARCHAR(50),
 anio INTEGER CHECK (anio > 1999 AND anio < 2026),
 estado BOOLEAN DEFAULT TRUE,
 sid INTEGER DEFAULT -1, --Valor default que referencia sede borrada
-FOREIGN KEY(sid) REFERENCES sucursales(sid) ON UPDATE CASCADE, --Actualiza ID de sucursal si se actualiza
-FOREIGN KEY(sid) REFERENCES sucursales(sid) ON DELETE SET DEFAULT --Al borrar sucursal se deja sid como valor nulo
+FOREIGN KEY(sid) REFERENCES sucursales(sid) ON UPDATE CASCADE--Actualiza ID de sucursal si se actualiza, y
+ON DELETE SET DEFAULT  --Establece como valor default "borrado" al borrar sucursal.
 );
 
 --Tabla clientes
@@ -51,6 +51,7 @@ CREATE TABLE pagos(
 pid SERIAL PRIMARY KEY,
 monto DECIMAL(10,2) NOT NULL CHECK(monto >= 0),
 aid INTEGER,
-FOREIGN KEY(aid) REFERENCES alquileres(aid) ON UPDATE CASCADE, --Actualiza ID de alquiler al cambiarla
-FOREIGN KEY(aid) REFERENCES alquileres(aid) ON DELETE SET NULL --Al borrar el alquiler retorna el valor nulo
+--Actualiza al cambiar el valor aid de alquileres
+FOREIGN KEY(aid) REFERENCES alquileres(aid) ON UPDATE CASCADE
+ON DELETE SET NULL --Establece como nulo el aid si se borra el registro de alquiler
 );
