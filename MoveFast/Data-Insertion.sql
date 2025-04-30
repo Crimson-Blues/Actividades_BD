@@ -7,7 +7,6 @@ INSERT INTO sucursales(snombre, calle, carrera, ciudad) VALUES
 ('Cauca', 'Central', '12', 'Popayan'),
 ('Amazonas', '1ra', '25', 'Leticia');
 
-
 --Inserta manualmente el objeto sucursal eliminada
 INSERT INTO sucursales(sid, snombre, calle, carrera, ciudad) VALUES
 (-1, 'Eliminado', 'N/A', 'N/A', 'N/A');
@@ -18,11 +17,6 @@ INSERT INTO clientes(clid, nombre, apellido, telefono) VALUES
 (1005, 'Liseth', 'Rivera', '3134578643'),
 (1010, 'David', NULL, NULL);
 
---Error al ingresar cliente con nombre nulo
-INSERT INTO clientes(clid, apellido, telefono) VALUES
-(1020, 'Carmona', '3122181732');
-
-
 --Ingreso de vehiculos disponibles
 INSERT INTO vehiculos(placa, marca, modelo, color, anio, sid) VALUES
 ('HZC245', 'Chevrolet', 'Twingo', 'Negro', 2020, 1),
@@ -32,15 +26,6 @@ INSERT INTO vehiculos(placa, marca, modelo, color, anio, sid) VALUES
 ('HSF176', 'Renault', 'Sail', 'Blanco', 2019, 2),
 ('JAH764', 'Chevrolet', 'SparkGT', 'Gris', 2014, 3),
 ('HAJ665', 'Renault', 'Sandero', 'Gris', 2010, 4);
-
-
---Error al insertar vehiculo con un año no valido
-INSERT INTO vehiculos(placa, marca, modelo, color, anio, estado, sid) VALUES
-('HAH755', 'BYD', 'YUAN UP', 'Azul', 1800, FALSE, 13);
-
---Error al insertar vehiculo sin placa
-INSERT INTO vehiculos(marca, modelo, color, anio, estado, sid) VALUES
-('BYD', 'YUAN UP', 'Azul', 2022, FALSE, 13);
 
 --Ingreso de alquileres con fechas pasadas y estado FALSE
 INSERT INTO alquileres(fecha, clid, placa, estado) VALUES
@@ -53,8 +38,6 @@ INSERT INTO alquileres(fecha, clid, placa, estado) VALUES
 ('2023-02-12', 1005, 'DHF933', FALSE),
 ('2023-03-15', 1010, 'ABC123', FALSE),
 ('2023-06-07', 1005, 'ABC123', FALSE);
-
-
 
 --Ingreso de alquileres con valor DEFAULT de fecha de hoy y estado TRUE
 INSERT INTO alquileres(clid, placa) VALUES
@@ -70,7 +53,6 @@ FROM alquileres
 WHERE alquileres.placa = vehiculos.placa
 AND alquileres.fecha = '2025-04-29';
 
-  
 --Ingreso de pagos por alquileres
 INSERT INTO pagos(monto, aid) VALUES
 (20000, 1),
@@ -85,3 +67,33 @@ INSERT INTO pagos(monto, aid) VALUES
 (250000, 9),
 (50000, 10),
 (60000, 11);
+
+--PRUEBAS DE RESTRICCIONES---
+
+--Ingresar sucursal sin ciudad
+INSERT INTO sucursales(snombre, calle, carrera) VALUES
+('Llanos', '3ra', '23');
+
+--Error al insertar vehiculo con un año no valido
+INSERT INTO vehiculos(placa, marca, modelo, color, anio, estado, sid) VALUES
+('HAH755', 'BYD', 'YUAN UP', 'Azul', 1800, FALSE, 13);
+
+--Error al insertar vehiculo sin placa
+INSERT INTO vehiculos(marca, modelo, color, anio, estado, sid) VALUES
+('BYD', 'YUAN UP', 'Azul', 2022, FALSE, 13);
+
+--Actualización de sid de sucursal
+UPDATE sucursales SET sid = 10 WHERE sid = 1;
+SELECT placa, sid FROM vehiculos;
+
+--Error al ingresar cliente con nombre nulo
+INSERT INTO clientes(clid, apellido, telefono) VALUES
+(1020, 'Carmona', '3122181732');
+
+--Borrado de un cliente para verificar comportamiento ON DELETE CASCADE de alquileres asociados
+SELECT * FROM alquileres;
+DELETE FROM clientes WHERE clid = 1000;
+SELECT * FROM alquileres;
+
+--Borrado de alquileres en pagos asociados
+SELECT * FROM pagos;
